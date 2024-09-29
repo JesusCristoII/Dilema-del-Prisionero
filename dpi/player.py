@@ -164,3 +164,43 @@ class Detective4MovsTft(Player):
             else:
                 estado = D
         return estado
+
+
+class Movimiento_Pendular(Player):
+    def __init__(self, dilemma: Dilemma, name: str = ""):
+        self.dilemma = dilemma
+        self.history = []
+
+    def perdon(self):   #funcion que nos ayuda a ver si el rival merece o no ser perdonado
+        perdonar = False
+        if random.random() < 0.3:
+            perdonar = True
+        return perdonar
+
+    def strategy(self, opponent: Player) -> int:  #integramos dos compartamientos dentro de un mismo estilo de juego
+        resul = None
+        contador_castigos = 0 #contador para la estrategia a partir de la ronda 80
+
+        if self.history == []:
+            resul = C
+
+        elif len(self.history) < 80:    # Antes de la ronda 80 aplicamos un tfd
+             resul = opponent.history[-1]
+
+        elif len(self.history) < 80 and opponent.history[-1] == D:
+            if self.perdon():
+                resul = C
+            else:
+                resul = D
+
+        if len(self.history) > 80:
+            if opponent.history[-1] == D:
+                contador_castigos += 3
+
+            if contador_castigos > 0:
+                contador_castigos -= 1
+                resul = D
+            else:
+                resul = C
+                
+        return resul
