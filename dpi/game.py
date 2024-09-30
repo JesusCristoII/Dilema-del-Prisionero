@@ -48,3 +48,32 @@ class Game:
             if do_print:
                 print(self.score)
 
+
+    def play2(self, do_print: bool = False) -> None:
+        """
+        Main call of the class. Play the game.
+        Stores the final result in 'self.score'
+
+        Parameters
+            - do_print (bool = False): if True, should print the ongoing
+            results at the end of each round (i.e. print round number, last
+            actions of both players and ongoing score).
+        """
+        for i in range(self.n_rounds):
+            if random.random() < self.error:
+                'C' = 'D'
+                'D' = 'C'
+
+                self.player_1.history.append(self.player_1.strategy(self.player_2))
+                self.player_2.history.append(self.player_2.strategy(self.player_1))
+                self.score = self.player_1.compute_scores(self.player_2)
+
+            else:
+                self.player_1.history.append(self.player_1.strategy(self.player_2))
+                self.player_2.history.append(self.player_2.strategy(self.player_1))
+                self.score = self.player_1.compute_scores(self.player_2)
+
+            if do_print:
+                print(self.score)
+
+
