@@ -211,6 +211,7 @@ class Movimiento_Pendular2(Player):
     def __init__(self, dilemma: Dilemma, name: str = ""):
         self.dilemma = dilemma
         self.history = []
+        self.contador_castigos = 0   #contador para la estrategia a partir de la ronda 80
 
 
     def perdon(self):   #funcion que nos ayuda a ver si el rival merece o no ser perdonado
@@ -229,7 +230,6 @@ class Movimiento_Pendular2(Player):
     def strategy(self, opponent: Player) -> int:  #integramos dos compartamientos dentro de un mismo estilo de juego
         
         resul = None
-        contador_castigos = 0 #contador para la estrategia a partir de la ronda 80
 
         if self.history == []:
             resul = C
@@ -245,11 +245,11 @@ class Movimiento_Pendular2(Player):
             if self.analisis(opponent) < 0.82: #Si el rival a cooperado menos de un 82% de las veces se le castigará
 
                 if opponent.history[-1] == D:
-                    contador_castigos += 2
+                    self.contador_castigos = 2
 
-                if contador_castigos > 0:
+                if self.contador_castigos > 0:
                     resul = D
-                    contador_castigos -= 1
+                    self.contador_castigos -= 1
 
                 else:
                     resul = C
